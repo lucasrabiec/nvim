@@ -1,4 +1,5 @@
-# 💤 LazyVim
+# 💤 LazyVim by Lucas
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+This is my personal configuration of [LazyVim](https://github.com/LazyVim/LazyVim).
+
+<center><img width="500" src="./dasboard.png" /></center>

@@ -13,7 +13,7 @@ return {
       html = { "prettier" },
       json = { "prettier" },
       yaml = { "yamlfmt" },
-      python = { "ruff_fix", "ruff_organize_imports" },
+      python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
       cs = { "csharpier" },
       kotlin = { "ktlint" },
       java = { "ktlint" },

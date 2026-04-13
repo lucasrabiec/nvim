@@ -17,6 +17,9 @@ return {
           basedpyright = {
             analysis = {
               diagnosticMode = "workspace",
+              diagnosticSeverityOverrides = {
+                reportUnusedCallResult = "none",
+              },
             },
           },
         },
