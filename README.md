@@ -2,4 +2,6 @@
 
 This is my personal configuration of [LazyVim](https://github.com/LazyVim/LazyVim).
 
-<center><img width="500" src="./dasboard.png" /></center>
+<p align="center">
+  <img width="500" src="./dasboard.png" />
+</p>
