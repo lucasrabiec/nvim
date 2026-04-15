@@ -37,6 +37,7 @@ return {
                 reportMissingSuperCall = "information",
                 reportCallIssue = "warning",
                 reportUnannotatedClassAttribute = "information",
+                reportCallInDefaultInitializer = false,
                 -- include basedpyright-only options, even if "standard" is selected (defaults to only in "all")
                 -- https://docs.basedpyright.com/latest/configuration/config-files/#basedpyright-exclusive-settings_2
                 reportAny = false, -- bans all usage of 'Any' type
