@@ -99,4 +99,98 @@ vim.keymap.set("n", "<leader>gl", neogit.action("log", "log_current"), { desc = 
 del("n", "<leader>gL")
 vim.keymap.set("n", "<leader>L", Snacks.dashboard.open, { desc = "Open Dashboard" })
 
+-- C-c Esc
 vim.keymap.set({ "n", "i" }, "<C-c>", "<Esc>")
+
+-- Copy current buffer path and cursor position (/path/file:line)
+vim.keymap.set("n", "<leader>yp", function()
+  local full = vim.fn.expand("%:p")
+  local line = vim.fn.line(".")
+
+  -- try to find git root
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+
+  local rel
+  if root and root ~= "" and vim.fn.isdirectory(root) == 1 then
+    rel = full:gsub("^" .. root .. "/", "")
+  else
+    local cwd = vim.fn.getcwd()
+    rel = full:gsub("^" .. cwd .. "/", "")
+  end
+
+  local text = rel .. ":" .. line
+
+  vim.fn.setreg("+", text)
+  print("Copied: " .. text)
+end, { desc = "Copy smart relative path with line" })
+
+-- Copy current buffer path as link to GitHub
+vim.keymap.set("n", "<leader>yg", function()
+  local file = vim.fn.expand("%:p")
+  local line = vim.fn.line(".")
+
+  -- git root
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  if not root or root == "" then
+    print("Not a git repo")
+    return
+  end
+
+  -- relative path
+  local rel = file:gsub("^" .. root .. "/", "")
+
+  -- repo url
+  local remote = vim.fn.systemlist("git config --get remote.origin.url")[1]
+
+  -- branch
+  local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+
+  if not remote or remote == "" then
+    print("No remote origin")
+    return
+  end
+
+  -- SSH → HTTPS
+  remote = remote:gsub("git@github.com:", "https://github.com/"):gsub("%.git$", "")
+
+  local url = remote .. "/blob/" .. branch .. "/" .. rel .. "#L" .. line
+
+  vim.fn.setreg("+", url)
+  print("Copied: " .. url)
+end, { desc = "Copy GitHub link (line)" })
+
+vim.keymap.set("v", "<leader>yg", function()
+  local file = vim.fn.expand("%:p")
+
+  local start_line = vim.fn.line("v")
+  local end_line = vim.fn.line(".")
+
+  -- upewnij się że start <= end
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  if not root or root == "" then
+    print("Not a git repo")
+    return
+  end
+
+  local rel = file:gsub("^" .. root .. "/", "")
+
+  local remote = vim.fn.systemlist("git config --get remote.origin.url")[1]
+  local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+
+  if not remote or remote == "" then
+    print("No remote origin")
+    return
+  end
+
+  remote = remote:gsub("git@github.com:", "https://github.com/"):gsub("%.git$", "")
+
+  local range = "#L" .. start_line .. "-L" .. end_line
+  local url = remote .. "/blob/" .. branch .. "/" .. rel .. range
+
+  vim.fn.setreg("+", url)
+  print("Copied: " .. url)
+end, { desc = "Copy GitHub link (lines range)" })
