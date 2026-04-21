@@ -11,7 +11,7 @@ return {
             preferences = {
               includeCompletionsForModuleExports = true,
               includeCompletionsForImportStatements = true,
-              importModuleSpecifier = "non-relative",
+              importModuleSpecifier = "shortest", -- shortest, relative, non-relative, project-relative
             },
           },
         },
