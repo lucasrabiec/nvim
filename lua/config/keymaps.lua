@@ -105,6 +105,25 @@ vim.keymap.set({ "n", "i" }, "<C-c>", "<Esc>")
 -- Copy current buffer path and cursor position (/path/file:line)
 vim.keymap.set("n", "<leader>yp", function()
   local full = vim.fn.expand("%:p")
+
+  -- try to find git root
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+
+  local rel
+  if root and root ~= "" and vim.fn.isdirectory(root) == 1 then
+    rel = full:gsub("^" .. root .. "/", "")
+  else
+    local cwd = vim.fn.getcwd()
+    rel = full:gsub("^" .. cwd .. "/", "")
+  end
+
+  vim.fn.setreg("+", rel)
+  print("Copied: " .. rel)
+end, { desc = "Copy smart relative path" })
+
+-- Copy current buffer path and cursor position (/path/file:line)
+vim.keymap.set("n", "<leader>yl", function()
+  local full = vim.fn.expand("%:p")
   local line = vim.fn.line(".")
 
   -- try to find git root
@@ -159,6 +178,7 @@ vim.keymap.set("n", "<leader>yg", function()
   print("Copied: " .. url)
 end, { desc = "Copy GitHub link (line)" })
 
+-- Copy current buffer path as link with lines range
 vim.keymap.set("v", "<leader>yg", function()
   local file = vim.fn.expand("%:p")
 
