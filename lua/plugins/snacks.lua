@@ -271,6 +271,67 @@ return {
         end,
       },
       preset = {
+        keys = {
+          {
+            action = function()
+              require("fff").find_files()
+            end,
+            desc = " Find File",
+            icon = " ",
+            key = "f",
+          },
+          {
+            action = "ene | startinsert",
+            desc = " New File",
+            icon = " ",
+            key = "n",
+          },
+          {
+            action = ":lua Snacks.dashboard.pick('oldfiles')",
+            desc = " Recent Files",
+            icon = " ",
+            key = "r",
+          },
+          {
+            action = function()
+              require("fff").live_grep()
+            end,
+            desc = " Find Text",
+            icon = " ",
+            key = "g",
+          },
+          {
+            action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+            desc = " Config",
+            icon = " ",
+            key = "c",
+          },
+          {
+            section = "session",
+            desc = " Restore Session",
+            icon = " ",
+            key = "s",
+          },
+          {
+            action = ":LazyExtras",
+            desc = " Lazy Extras",
+            icon = " ",
+            key = "x",
+          },
+          {
+            action = ":Lazy",
+            enabled = package.loaded.lazy ~= nil,
+            desc = " Lazy",
+            icon = "󰒲 ",
+            key = "l",
+          },
+          {
+            action = ":qa",
+            desc = " Quit",
+            icon = " ",
+            key = "q",
+          },
+        },
         header = [[
 ██╗     ██╗   ██╗ ██████╗ █████╗ ███████╗   ███╗   ██╗██╗   ██╗██╗███╗   ███╗
 ██║     ██║   ██║██╔════╝██╔══██╗██╔════╝   ████╗  ██║██║   ██║██║████╗ ████║
