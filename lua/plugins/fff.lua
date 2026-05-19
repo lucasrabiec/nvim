@@ -37,6 +37,13 @@ return {
   lazy = false, -- the plugin lazy-initialises itself
   keys = {
     {
+      "<leader><leader>",
+      function()
+        require("fff").find_files()
+      end,
+      desc = "FFFind files",
+    },
+    {
       "<leader>ff",
       function()
         require("fff").find_files()
