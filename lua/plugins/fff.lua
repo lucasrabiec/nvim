@@ -39,9 +39,9 @@ return {
     {
       "<leader><leader>",
       function()
-        require("fff").find_files()
+        require("fff").live_grep({ grep = { modes = { "fuzzy", "plain" } } })
       end,
-      desc = "FFFind files",
+      desc = "Live fffuzy grep",
     },
     {
       "<leader>ff",
