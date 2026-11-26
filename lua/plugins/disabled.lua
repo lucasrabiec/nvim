@@ -6,4 +6,9 @@ return {
   { "nvim-neo-tree/neo-tree.nvim", enabled = false },
   { "kdheepak/lazygit.nvim", enabled = false },
   { "MeanderingProgrammer/render-markdown.nvim", enabled = false },
+  { "folke/tokyonight.nvim", enabled = false },
+  { "nvim-mini/mini.indentscope", enabled = false },
+  { "tpope/vim-dadbod", enabled = false },
+  { "kristijanhusak/vim-dadbod-ui", enabled = false },
+  { "kristijanhusak/vim-dadbod-completion", enabled = false },
 }

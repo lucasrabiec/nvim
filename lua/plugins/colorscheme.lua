@@ -55,14 +55,6 @@ return {
         IlluminatedWordRead = { bg = darken(colors.comment, 0.65) },
         IlluminatedWordWrite = { bg = darken(colors.comment, 0.65) },
 
-        -- Notify
-        -- Border
-        -- NotifyERRORBorder = { fg = colors.fg, bg = colors.bg },
-        -- NotifyWARNBorder = { fg = colors.fg, bg = colors.bg },
-        -- NotifyINFOBorder = { fg = colors.fg, bg = colors.bg },
-        -- NotifyDEBUGBorder = { fg = colors.fg, bg = colors.bg },
-        -- NotifyTRACEBorder = { fg = colors.fg, bg = colors.bg },
-
         -- Body
         NotifyERRORBody = { fg = colors.fg, bg = colors.bg },
         NotifyWARNBody = { fg = colors.fg, bg = colors.bg },
@@ -75,5 +67,11 @@ return {
         PackageInfoUptodateVersion = { fg = colors.bright_green },
       }
     end,
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "dracula",
+    },
   },
 }

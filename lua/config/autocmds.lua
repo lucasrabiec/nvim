@@ -42,20 +42,11 @@ autocmd("User", {
 
 autocmd("User", {
   callback = function()
-    require("lualine").hide({ unhide = true })
+    require("lualine").hide({ place = { "winbar" }, unhide = true })
   end,
   pattern = "DiffviewViewClosed",
   group = DiffViewGroup,
 })
-
--- autocmd("Filetype", {
---   pattern = { "*" },
---   callback = function()
---     vim.opt.formatoptions = vim.opt.formatoptions - "o" -- Don't continue comments with o and O
---     vim.opt.formatoptions = vim.opt.formatoptions - "r" -- Don't continue comments with enter
---   end,
---   desc = "Don't continue comments with o, O and Enter",
--- })
 
 autocmd("Filetype", {
   pattern = { "python" },
