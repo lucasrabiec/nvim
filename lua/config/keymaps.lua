@@ -25,20 +25,24 @@ del("n", "<c-_>")
 
 vim.api.nvim_set_keymap("n", "Q", "<Nop>", {})
 
--- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste" })
-
--- next greatest remap ever : asbjornHaland
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
-
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+-- do not copy letter or word to clipboard
+vim.keymap.set({ "n", "x" }, "x", '"_x')
+vim.keymap.set({ "n", "x" }, "c", '"_c')
 
 -- Center on scrolling
-map("n", "<C-u>", "<cmd>lua vim.cmd('normal! <C-u>zz'); MiniAnimate.execute_after('scroll', 'normal! zz')<cr>")
-map("n", "<C-d>", "<cmd>lua vim.cmd('normal! <C-d>zz'); MiniAnimate.execute_after('scroll', 'normal! zz')<cr>")
-map("n", "<C-f>", "<cmd>lua vim.cmd('normal! <C-f>zz'); MiniAnimate.execute_after('scroll', 'normal! zz')<cr>")
-map("n", "<C-b>", "<cmd>lua vim.cmd('normal! <C-b>zz'); MiniAnimate.execute_after('scroll', 'normal! zz')<cr>")
+-- only center when there is room, otherwise zz near file start/end makes the view jump
+local function scroll_center(key)
+  return function()
+    vim.cmd("normal! " .. vim.keycode(key))
+    local half = math.floor(vim.api.nvim_win_get_height(0) / 2)
+    local line = vim.fn.line(".")
+    if line > half and line <= vim.fn.line("$") - half then
+      vim.cmd("normal! zz")
+    end
+  end
+end
+vim.keymap.set("n", "<C-u>", scroll_center("<C-u>"), { desc = "Scroll up and center" })
+vim.keymap.set("n", "<C-d>", scroll_center("<C-d>"), { desc = "Scroll down and center" })
 
 -- Other
 
@@ -61,7 +65,6 @@ require("which-key").add({
   { "<leader><tab>", hidden = true },
   { "gp", group = "preview" },
   { "<leader>n", group = "npm package" },
-  { "<leader>S", group = "spectre" },
 })
 
 vim.keymap.set("n", "<c-f>", function()

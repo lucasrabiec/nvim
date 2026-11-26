@@ -7,10 +7,10 @@ return {
   -- for nixos:
   -- build = "nix run .#release",
   opts = {
-    debug = {
-      enabled = true,
-      show_scores = true,
-    },
+    -- debug = {
+    --   enabled = true,
+    --   show_scores = true,
+    -- },
     layout = {
       height = 0.8,
       width = 0.6,

@@ -4,6 +4,9 @@ return {
     "DiffviewOpen",
     "DiffviewFileHistory",
   },
+  keys = {
+    { "<leader>gh", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+  },
   dependencies = "nvim-lua/plenary.nvim",
   opts = function()
     local actions = require("diffview.actions")

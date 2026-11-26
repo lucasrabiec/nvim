@@ -75,8 +75,8 @@ return {
   },
   ---@type snacks.Config
   opts = {
-    scroll = {
-      enabled = false, -- disable scrolling animations
+    indent = {
+      animate = { enabled = false }, -- disable indent scope animation
     },
     explorer = {
       enabled = true,

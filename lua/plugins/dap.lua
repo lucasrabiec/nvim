@@ -16,16 +16,6 @@ return {
     opts = function()
       local dap = require("dap")
 
-      dap.adapters.python = {
-        type = "server",
-        host = "127.0.0.1",
-        port = "${port}",
-        executable = {
-          command = "uv",
-          args = { "run", "-q", "python", "-m", "debugpy.adapter" },
-        },
-      }
-
       local function guess_module_from_file()
         local file = vim.api.nvim_buf_get_name(0)
         local cwd = vim.fn.getcwd()

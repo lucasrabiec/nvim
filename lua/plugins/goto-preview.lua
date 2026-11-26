@@ -7,7 +7,5 @@ return {
     { "gpp", "<cmd>lua require('goto-preview').close_all_win()<cr>", desc = "Close all windows" },
     { "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<cr>", desc = "Preview reference" },
   },
-  config = function()
-    require("goto-preview").setup()
-  end,
+  opts = {},
 }

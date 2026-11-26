@@ -1,6 +1,5 @@
 return {
   "folke/zen-mode.nvim",
-  dependencies = { "folke/twilight.nvim" },
   opts = {
     plugins = {
       -- wezterm = {
@@ -8,7 +7,6 @@ return {
       --   font = "+2", -- (10% increase per step)
       -- },
       gitsigns = true,
-      twilight = { enabled = false },
       tmux = { enabled = true },
     },
   },

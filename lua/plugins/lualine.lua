@@ -1,36 +1,11 @@
-M = {}
-
-function M.list_registered_providers_names(filetype)
-  local available_sources = require("null-ls.sources").get_available(filetype)
-  local registered = {}
-  for _, source in ipairs(available_sources) do
-    for method in pairs(source.methods) do
-      registered[method] = registered[method] or {}
-      table.insert(registered[method], source.name)
-    end
-  end
-  return registered
-end
-
-function M.list_supported(filetype, methods)
-  local registered_providers = M.list_registered_providers_names(filetype)
-  local diagnostics_providers = vim.tbl_flatten(vim.tbl_map(function(method)
-    return registered_providers[method] or {}
-  end, methods))
-
-  return diagnostics_providers
-end
-
 return {
   "nvim-lualine/lualine.nvim",
-  event = "VeryLazy",
   opts = function(_, opts)
     local icons = require("lazyvim.config").icons
     local function fg(name)
       return function()
-        ---@type {foreground?:number}?
-        local hl = vim.api.nvim_get_hl_by_name(name, true)
-        return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
+        local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+        return hl.fg and { fg = string.format("#%06x", hl.fg) }
       end
     end
 
@@ -46,9 +21,7 @@ return {
 
           local c = {}
           for _, client in pairs(clients) do
-            if client.name ~= "copilot" then
-              table.insert(c, client.name)
-            end
+            table.insert(c, client.name)
           end
 
           return "" .. table.concat(c, " | ")
@@ -120,12 +93,18 @@ return {
     }
     local filetype = { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } }
     local filename = { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } }
-    local navic = {
-      function()
-        return require("nvim-navic").get_location()
-      end,
+    local trouble_symbols = require("trouble").statusline({
+      mode = "symbols",
+      groups = {},
+      title = false,
+      filter = { range = true },
+      format = "{kind_icon}{symbol.name:Normal}",
+      hl_group = "lualine_c_normal",
+    })
+    local breadcrumbs = {
+      trouble_symbols.get,
       cond = function()
-        return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+        return vim.b.trouble_lualine ~= false and trouble_symbols.has()
       end,
     }
     local cwd_dir = {
@@ -135,12 +114,10 @@ return {
       -- color = fg("Special"),
     }
 
-    opts.theme = "nightfly"
     opts.options.disabled_filetypes.winbar = { "dashboard", "lazy", "alpha", "DiffviewFiles" }
     opts.winbar = {
       lualine_c = { filetype, filename },
       lualine_y = {
-        { "copilot", show_colors = true, show_loading = true },
         getLsp(fg("Special")),
         getFormatters(fg("Special")),
         getLinters(fg("Special")),
@@ -155,7 +132,7 @@ return {
       end,
     } }
     opts.sections.lualine_b = { "branch" }
-    opts.sections.lualine_c = { diagnostics, navic }
+    opts.sections.lualine_c = { diagnostics, breadcrumbs }
     opts.sections.lualine_x = {
         -- stylua: ignore
         {
