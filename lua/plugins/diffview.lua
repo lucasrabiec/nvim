@@ -1,6 +1,9 @@
 return {
   "sindrets/diffview.nvim",
-  event = "VeryLazy",
+  cmd = {
+    "DiffviewOpen",
+    "DiffviewFileHistory",
+  },
   dependencies = "nvim-lua/plenary.nvim",
   opts = function()
     local actions = require("diffview.actions")
